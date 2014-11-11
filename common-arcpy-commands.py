@@ -7,6 +7,9 @@ arcpy.CreateRandomPoints_management("D:\\filepath","gravellyclippoints1","filena
 #dissolve
 arcpy.Dissolve_management("gravellyclip","gravellyclippoints")
 
+#intersect
+arcpy.Intersect_analysis(["buescherbuffer_parkclip1","buescher sands"],r"D:\Research\GIS files\Soils\bueschersandsearch")
+
 #erase behind some other feature (basically a reverse clip)
 arcpy.Erase_analysis("loams","Unburned Portions of Park","loamyclip")
 
@@ -15,6 +18,9 @@ arcpy.Buffer_analysis("sand-gravel-loam","soilbuffer","1 FOOT")
 
 #clip analysis
 arcpy.Clip_analysis("sandydissolve","Burn_Severity_Clipped nb, sc, lb","sandlo")
+
+#add XY coordinates
+arcpy.AddXY_management("bueschersanddemogpoints51")
 
 #To determine whether featureclass is projected
 fc="D:\\Research\\GIS files\\gravelhipoints3.shp"
@@ -56,7 +62,12 @@ for filename in os.listdir(mypath):
         shapefiles.append(filename)
         #emb addition
         print filename
-        
+
+input_features = []
+for root, dirnames, filenames in os.walk(env.workspace):
+  for filename in fnmatch.filter(filenames, '*.shp'):
+      input_features.append(os.path.abspath(os.path.join(root, filename)))
+
 # Output workspace
 #THIS IS WHERE THE REPROJECTED SHAPEFILES WILL BE SAVED, THIS FOLDER MUST EXIST
 out_workspace = r"D:\Research\GIS files\Soils" 
@@ -67,10 +78,10 @@ out_workspace = r"D:\Research\GIS files\Soils"
 out_cs = ''
 
 # Template dataset - it has GCS_North_American_1983 coordinate system
-template = "D:\Research\GIS files\Boundaries"
+template = r"D:\Research\GIS files\Boundaries\boundpy6_nov2007.shp"
 
 # Geographic transformation - 
-transformation = "whatever it is"
+transformation = "WGS_1984_(ITRF00)_To_NAD_1983_HARN"
 
 #THE TRY/EXCEPT STRUCTURE IS USED TO CATCH ANY ERRORS AND RETURN THE ERROR MESSAGES
 try:
@@ -82,3 +93,6 @@ try:
       print "failed to project one or more datasets"
 except:
    print res.getMessages() #DISPLAYS ANY ERROR MESSAGES
+
+# KMZ or KML to layer file ---------------------------------------------
+arcpy.KMLToLayer_conversion(r'D:\Research\GIS files\Buescher_SP_Trails.kmz',r'D:\Research\GIS files','bueschertrails')
