@@ -1,5 +1,9 @@
+import arcpy
 #to set working document to location of current map
 mxd = arcpy.mapping.MapDocument("CURRENT")
+
+#set workspace
+arcpy.env.workspace = r"D:\Research\GIS files\Soils"
 
 #create random points
 arcpy.CreateRandomPoints_management("D:\\filepath","gravellyclippoints1","filename","otherfilename",number of points)
@@ -22,6 +26,9 @@ arcpy.Clip_analysis("sandydissolve","Burn_Severity_Clipped nb, sc, lb","sandlo")
 #add XY coordinates
 arcpy.AddXY_management("bueschersanddemogpoints51")
 
+# KMZ or KML to layer file ---------------------------------------------
+arcpy.KMLToLayer_conversion(r'D:\Research\GIS files\Buescher_SP_Trails.kmz',r'D:\Research\GIS files','bueschertrails')
+
 #To determine whether featureclass is projected
 fc="D:\\Research\\GIS files\\gravelhipoints3.shp"
 desc = arcpy.Describe(fc)
@@ -33,12 +40,9 @@ else:
     print "nope"
 
 #Batch project
-import arcpy
-arcpy.env.workspace = r"D:\Research\GIS files\Soils"
-
 arcpy.BatchProject_management(["citylim.shp", "flood.shp", "faultzn.shp"], "C:/data/output/batchproject", "",  "C:/data/usa.gdb/templatefc")
 
-# ##########################################Name: BatchProject.py
+# ----------------Name: BatchProject.py (long form)
 # Description: Changes coordinate systems of several datasets in a batch.
 
 import arcpy, os #USE OPERATING SYSTEM FUNCTIONS
@@ -94,5 +98,4 @@ try:
 except:
    print res.getMessages() #DISPLAYS ANY ERROR MESSAGES
 
-# KMZ or KML to layer file ---------------------------------------------
-arcpy.KMLToLayer_conversion(r'D:\Research\GIS files\Buescher_SP_Trails.kmz',r'D:\Research\GIS files','bueschertrails')
+# ------------------------END BATCH PROJECT LONG FORM
