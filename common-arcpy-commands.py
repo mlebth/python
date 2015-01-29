@@ -26,6 +26,9 @@ arcpy.Clip_analysis("sandydissolve","Burn_Severity_Clipped nb, sc, lb","sandlo")
 #add XY coordinates
 arcpy.AddXY_management("bueschersanddemogpoints51")
 
+#export columns from attribute table to ASCII file
+arcpy.ExportXYv_stats("AllPlots2014","PlotID;POINT_X;POINT_Y","COMMA","allplots4.txt")
+
 # KMZ or KML to layer file ---------------------------------------------
 arcpy.KMLToLayer_conversion(r'D:\Research\GIS files\Buescher_SP_Trails.kmz',r'D:\Research\GIS files','bueschertrails')
 
