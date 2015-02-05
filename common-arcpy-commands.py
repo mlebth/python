@@ -102,3 +102,18 @@ except:
    print res.getMessages() #DISPLAYS ANY ERROR MESSAGES
 
 # ------------------------END BATCH PROJECT LONG FORM
+
+# -------------------TO EXTRACT RASTER VALUES TO A POINT SHAPEFILE
+# Import system modules
+from arcpy import env
+from arcpy.sa import *
+
+# Check out the ArcGIS Spatial Analyst extension license
+arcpy.CheckOutExtension("Spatial")
+
+# Execute ExtractValuesToPoints
+ExtractValuesToPoints(inPointFeatures, inRaster, outPointFeatures, "INTERPOLATE", "VALUE_ONLY")
+# EX to get aspect into allplots, interpolating from adjacent cells:
+ExtractValuesToPoints("AllPlots2014","us_asp2010","plotaspects.shp","INTERPOLATE")
+    #Note that Interpolate and Value_only are optional values.
+# -------------------END EXTRACT RASTER VALUES
