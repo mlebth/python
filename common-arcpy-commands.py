@@ -23,7 +23,7 @@ arcpy.Buffer_analysis("sand-gravel-loam","soilbuffer","1 FOOT")
 #clip analysis
 arcpy.Clip_analysis("sandydissolve","Burn_Severity_Clipped nb, sc, lb","sandlo")
 
-#add XY coordinates
+#add coordinates
 arcpy.AddXY_management("bueschersanddemogpoints51")
 
 #export columns from attribute table to ASCII file
