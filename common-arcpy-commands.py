@@ -1,9 +1,17 @@
+# ------------BASE
 import arcpy
+from arcpy import env
+from arcpy.sa import *
+
+# Check out the ArcGIS Spatial Analyst extension license
+arcpy.CheckOutExtension("Spatial")
+
 #to set working document to location of current map
 mxd = arcpy.mapping.MapDocument("CURRENT")
 
 #set workspace
-arcpy.env.workspace = r"D:\Research\GIS files\Soils"
+env.workspace = r"D:\Research\GIS files\Soils"
+#----------------------
 
 #create random points
 arcpy.CreateRandomPoints_management("D:\\filepath","gravellyclippoints1","filename","otherfilename",number of points)
@@ -117,3 +125,20 @@ ExtractValuesToPoints(inPointFeatures, inRaster, outPointFeatures, "INTERPOLATE"
 ExtractValuesToPoints("AllPlots2014","us_asp2010","plotaspects.shp","INTERPOLATE")
     #Note that Interpolate and Value_only are optional values.
 # -------------------END EXTRACT RASTER VALUES
+
+# --------------------HILLSHADE
+# Set local variables
+inRaster = "elevation"
+azimuth = 180
+altitude = 75
+modelShadows = "SHADOWS"
+zFactor = 0.348
+
+# Execute HillShade
+outHillShade = HillShade(inRaster, azimuth, altitude, modelShadows, zFactor)
+
+# Execute HillShade
+outHillShade = HillShade(inRaster, azimuth, altitude, modelShadows, zFactor)
+
+# Save the output 
+outHillShade.save("C:/sapyexamples/output/outhillshd02")
